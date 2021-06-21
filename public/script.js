@@ -6,10 +6,8 @@ var peer = new Peer(undefined, {
 })
 
 let myVideoStream;
-
-const myVideo = document.createElement('video');
+const myVideo = document.createElement(`video`);
 myVideo.muted = true;
-
 
 navigator.mediaDevices.getUserMedia({
     video: true,
@@ -48,7 +46,7 @@ const connectToNewUser = (userId, stream) => {
     })
 }
 
-const addVideoStream = (video,stream) => {
+const addVideoStream = (video, stream) => {
     video.srcObject = stream;
     video.addEventListener('loadedmetadata', () => {
         video.play();
