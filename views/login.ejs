@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="google-signin-client_id"
+      content="401680115319-ljth2d92o4tt9uboa3ffmsnc8fia707f.apps.googleusercontent.com"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link rel="stylesheet" href="login.css"> -->
+    <title>Login - Video Chat application</title>
+  </head>
+  <body>
+        <h1>Login with Google</h1>
+        <div id="my-signin2"></div>
+  </body>
+  <script>
+    function onSuccess(googleUser) {
+      let id_token = googleUser.getAuthResponse().id_token;
+      console.log(id_token);
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "/login");
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.onload = function () {
+        if (xhr.responseText == "success") {
+          signOut();
+          location.assign(`/dashboard`);
+        }
+      };
+      xhr.send(JSON.stringify({ token: id_token }));
+    }
+    function onFailure(error) {
+      console.log(error);
+    }
+    function renderButton() {
+      gapi.signin2.render("my-signin2", {
+        scope: "profile email",
+        width: 330,
+        height: 50,
+        longtitle: true,
+        theme: "dark",
+        onsuccess: onSuccess,
+        onfailure: onFailure
+      });
+    }
+    function signOut() {
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function () {
+        console.log("User signed out.");
+      });
+    }
+  </script>
+  <script
+    src="https://apis.google.com/js/platform.js?onload=renderButton"
+    async
+    defer
+  ></script>
+</html>

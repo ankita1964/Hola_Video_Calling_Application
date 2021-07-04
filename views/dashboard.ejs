@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-signin-client_id"
+        content="401680115319-ljth2d92o4tt9uboa3ffmsnc8fia707f.apps.googleusercontent.com" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="dashboard.css">
+    <title>Dashboard - Video Chat Application</title>
+</head>
+
+<body>
+    <h2>Hi There, <br> Work Better Together</h2>
+    <form action="/newRoom" method="get">
+        <input type="text" name="newRoomId" placeholder="Enter Room ID" /><button type="submit">New Meeting</button>
+
+    </form>
+    <!-- <a href="/newRoom" class="section__newMeeting">New Meeting</a> -->
+
+    <form action="/joinRoom" method="get">
+        <input type="text" name="joinRoomId" placeholder="Enter Room ID" /><button type="submit">JOIN</button>
+
+    </form>
+    <br>
+    <a href="/logout" onclick="signOut();">Sign out</a>
+</body>
+<script>
+    function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+            console.log("User signed out.");
+        });
+    }
+</script>
+<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+
+</html>

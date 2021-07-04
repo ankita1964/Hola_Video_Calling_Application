@@ -1,10 +1,12 @@
 const socket = io('http://localhost:3030/');
 const videoGrid = document.getElementById('video-grid');
 var peer = new Peer(undefined, {
+    path: '/peerjs',
     host: '/',
-    port: '3001'
+    port: '3030'
 })
 
+const peers = {}
 let myVideoStream;
 const myVideo = document.createElement(`video`);
 myVideo.muted = true;
@@ -37,6 +39,11 @@ navigator.mediaDevices.getUserMedia({
 })
 })
 
+socket.on('user-disconnected', (userId) => {
+    // console.log(userId);
+    if(peers[userId]) peers[userId].close();
+})
+
 peer.on('open', id => {
     socket.emit('join-room', ROOM_ID, id); 
 })
@@ -48,6 +55,12 @@ const connectToNewUser = (userId, stream) => {
     call.on('stream', userVideoStream => {
         addVideoStream(video, userVideoStream);
     })
+
+    call.on('close', () => {
+        video.remove(); 
+    })
+
+    peers[userId] = call
 }
 
 const addVideoStream = (video,stream) => {
