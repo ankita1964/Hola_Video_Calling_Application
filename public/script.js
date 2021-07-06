@@ -1,3 +1,4 @@
+// Deployed the application on Heroku
 const socket = io('/');
 const videoGrid = document.getElementById('video-grid1');
 var peer = new Peer(undefined, {
