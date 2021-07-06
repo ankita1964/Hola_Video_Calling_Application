@@ -1,0 +1,149 @@
+@font-face {
+    font-family: 'Product Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Open Sans'), local('OpenSans'), url(https://fonts.gstatic.com/s/productsans/v5/HYvgU2fE2nRJvZ5JFAumwegdm0LZdjqr5-oayXSOefg.woff2) format('woff2');
+  }
+ 
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    background: #bdc3c7;
+    font-family: "Product Sans";
+}
+
+nav {
+    width: 100%;
+    background-color: #2c3e50;
+    height: 10vh;
+    transition: 0.8s all ease;
+ }
+ 
+ ul {
+    color: white;
+    margin-right: 50px;
+    display: flex;
+    justify-content: flex-end;
+    list-style: none;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+ }
+ li {
+    margin: 24px 30px;
+    cursor: pointer;
+    border-radius: 30px;
+ }
+ 
+ a {
+    text-decoration: none;
+    color: white;
+ }
+ 
+ a:hover {
+    color: rgb(173, 172, 172)
+ }
+ 
+ .nav__loginBtn {
+    padding: 8px 30px;
+    margin: 15px 30px;
+    font-size: 1.2rem;
+    height: 40px;
+    width: 200px;
+    border-radius: 30px;
+    background: white;
+    color: black;
+ }
+ 
+ .nav__loginBtn:hover {
+    padding: 6px 27px;
+    border: 2px solid white;
+    color: white;
+    background: #2C5364;
+    transition: 0.3s all ease-in;
+ }
+
+section{
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+}
+
+.section__left {
+    flex: 0.4;
+    margin: 8% 0 0 10%;
+}
+
+.section__description > h2 {
+    font-size: 3rem;
+}
+.section__description > p {
+    font-size: 1.5rem;
+    margin: 0.75em 0;
+}
+
+.section__meetingControls {
+    margin: 15% 0;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    /* align-items: center; */
+}
+
+.section__meetingControls > h3 {
+    margin: 5% 35%;
+}
+.section__newMeeting {
+    background: #2C5364;
+    text-align: center;
+    border-radius: 20px;
+    font-size: 1.8rem;
+    padding: 10px 100px;
+    width: 400px;
+}
+
+.section__joinMeeting  {
+    background: white;
+    border-radius: 20px;
+    width: 365px;
+    padding: 10px;
+}
+
+.section__joinMeeting > form > input {
+    border: none;
+    font-size: 1.2rem;
+    padding: 5px 10px;
+}
+input:focus {
+    outline: none;
+}
+
+.section__joinMeeting > form > button {
+    outline: none;
+}
+
+.section__joinMeeting > form > button {
+    border: none;
+    font-size: 1.2rem;
+    background: white;
+    margin-left: 25px;
+    color: #2c3e50;
+}
+ form > button:hover {
+    cursor: pointer;
+ }
+
+
+
+.section__right {
+    flex: 0.6;
+}
+
+.section__right > img {
+    margin: 10% 8%;
+    height: 80%;
+    width: 75%;
+}

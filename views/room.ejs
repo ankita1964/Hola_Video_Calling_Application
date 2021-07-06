@@ -15,7 +15,79 @@
     </script>
 </head>
 <body>
-    <nav>
+    <section class="timeAndProfile">
+        <div class="dateAndTime"></div>
+        <div class="profile"></div>
+    </section>
+    <section class="videoAndChat">
+        <div class="videoArea">
+            <!-- <div class="row row1"> -->
+                <h3>Be Right Back</h3>
+                <div class="tile" id="video-grid1">
+                </div>
+            <!-- </div> -->
+            <!-- <div class="row row2">
+                <div class="tile" id="video-grid3">
+                
+                </div>
+                <div class="tile" id="video-grid4">
+                
+                </div>
+            </div> -->
+        </div>
+        <div class="chatAndNotes">
+            <div class="notes">
+                <div class="notesHeading">
+                    <h4>Want to take notes ?</h4>
+                    <div class="hr"></div>
+                </div>
+                <!-- <ul></ul> -->
+                <div>
+                    <input type="text" placeholder="Note here">
+                </div>
+            </div>
+            <div class="chat">
+                <div class="chatHeading">
+                    <h4>Let's Chat</h4>
+                    <div class="hr"></div>
+                </div>
+                <ul class="messages"></ul>
+                <div class="inputArea">
+                    <input type="text" placeholder="Enter message here">
+                    <button>SEND</button></input>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="meetingControls">
+            <div class="mainControls">  
+                <div onclick="brbButton()"class="mainControls__options brb">
+                    BRB</i>
+                </div>
+                <div onclick="muteUnmute()" class="mainControls__options audio">
+                    <i class="fas fa-microphone"></i>
+                </div>
+                <div onclick = "playStopVideo()" class="mainControls__options video">
+                    <i class="fas fa-video"></i>
+                </div>
+                <div class="mainControls__options leave">
+                    <a href="/dashboard"><i class="fas fa-phone"></i></a>
+                </div>
+            </div>
+            
+            <div class="extraControls">
+                <div class="extraControls__options">
+                    <i class="fas fa-microphone"></i>
+                </div>
+                <div class="extraControls__options audio">
+                    <i class="fas fa-microphone"></i>
+                </div>
+                <div class="extraControls__options video">
+                    <i class="fas fa-video"></i>
+                </div>
+            </div>
+    </section>
+    <!-- <nav>
         <div class="navBar__list">
             <div class="navBar__listElement">
                 <i class="fas fa-user-friends"></i>
@@ -62,7 +134,7 @@
                 <input type="text" class="main__chatInput" placeholder="Type your message" />
             </div>
         </div>
-    </div>
+    </div> -->
 </body>
 <script src="script.js"></script>
 </html>

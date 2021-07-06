@@ -4,27 +4,47 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-signin-client_id"
-        content="401680115319-ljth2d92o4tt9uboa3ffmsnc8fia707f.apps.googleusercontent.com" />
+    <meta name="google-signin-client_id" content="401680115319-ljth2d92o4tt9uboa3ffmsnc8fia707f.apps.googleusercontent.com" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="dashboard.css">
     <title>Dashboard - Video Chat Application</title>
 </head>
 
 <body>
-    <h2>Hi There, <br> Work Better Together</h2>
-    <form action="/newRoom" method="get">
-        <input type="text" name="newRoomId" placeholder="Enter Room ID" /><button type="submit">New Meeting</button>
-
-    </form>
-    <!-- <a href="/newRoom" class="section__newMeeting">New Meeting</a> -->
-
-    <form action="/joinRoom" method="get">
-        <input type="text" name="joinRoomId" placeholder="Enter Room ID" /><button type="submit">JOIN</button>
-
-    </form>
-    <br>
-    <a href="/logout" onclick="signOut();">Sign out</a>
+    <nav>
+        <ul>
+          <li><a href="/home">Home</a></li>
+          <li><a href="/dashboard">New Meeting</a></li>
+          <li><a href="/dashboard">Join Meeting</a></li>
+          <a href="/login" class="nav__loginBtn">Login / Signup</a>
+      </ul>
+      </nav>
+      <section>
+        <div class="section__left">
+          <div class="section__description">
+            <h2>Hi There, <br> Work Better Together</h2>
+            <p>Create Meetings and Invite your Colleagues <br> or just join and have fun!</p>
+          </div>
+    
+          <div class="section__meetingControls">
+            <div>
+              <a href="/newRoom" class="section__newMeeting">New Meeting</a>
+            </div>
+            <h3>OR</h3>
+            <div class="section__joinMeeting">
+              <form action="/joinRoom" method="get">
+                  <input type="text" name="joinRoomId" placeholder="Enter Room ID" /><button type="submit">JOIN</button>
+                  
+              </form>
+            </div>
+          </div>
+          <br>
+          <a href="/logout" onclick="signOut();">Sign out</a>
+        </div>
+        <div class="section__right">
+          <img src="/main/dashboard/right.png" alt="People_right">
+        </div>
+      </section>
 </body>
 <script>
     function signOut() {

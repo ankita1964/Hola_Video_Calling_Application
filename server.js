@@ -20,12 +20,12 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.get('/', (req,res) => {
-    res.redirect("login");
+    res.redirect("home");
     // res.redirect(`/${uuidv4()}`);
 })
 
-app.get("/login", (req,res) => {
-    res.render("login");
+app.get("/home", (req,res) => {
+    res.render("home");
 })
 
 // app.get('/', (req,res) => {
@@ -110,11 +110,11 @@ app.post("/login", (req,res) => {
 
 app.get("/logout", (req,res) => {
     res.clearCookie('session-token');
-    res.redirect("/login");
+    res.redirect("/home");
 })
 
 app.get("/newRoom", checkAuthenticated, (req, res) => {
-    res.redirect(`/${req.query.newRoomId}`)
+    res.redirect(`/${uuidv4()}`)
 })
 
 
@@ -138,4 +138,4 @@ io.on('connection', socket => {
         })
     })
 })
-server.listen(3030);
+server.listen(process.env.PORT || 3030);
