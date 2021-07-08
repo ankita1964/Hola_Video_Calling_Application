@@ -19,6 +19,7 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(cookieParser());
 
+//
 app.get('/', (req,res) => {
     res.redirect("home");
     // res.redirect(`/${uuidv4()}`);

@@ -44,8 +44,65 @@
     margin: 0.65em 4em;
     height: 40px;
     width: 40px;
-    background-color: grey;
+    /* background-color: grey; */
     border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .profileOptions {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    top: 3em;
+    right: 2em;
+    color: #0F2027;
+    background-color: white;
+    padding: 0.5em 1em;
+    border-radius: 20px;
+    opacity: 0;
+  }
+  
+  .profile:hover .profileOptions{
+    opacity: 1;
+  }
+  
+  .timeAndProfile > img {
+    position: absolute;
+  }
+  
+  .podha {
+    top: -10px;
+    right: 360px;
+    height: 120px;
+    width: 100px;
+  }
+  
+  .bulb {
+    left: -60px;
+    height: 425px;
+    width: 200px;
+  }
+  
+  .books {
+    height: 200px;
+    width: 150px;
+    bottom: 0;
+    left: -30px;
+  }
+  
+  hr {
+    position: absolute;
+    width: 39%;
+    height: 1px;
+    bottom: 45px;
+    border: 0.5px solid #1AA0fb;
+    background-color: #1AA0fb;
+  }
+  
+  .profileOptions > a {
+    color: #0F2027;
+    text-decoration: none;
+    margin-top: 1em;
   }
   
   .videoAndChat {
@@ -56,8 +113,11 @@
   
   .videoArea {
     flex: 0.75;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     /* background-color: yellow; */
-    margin: 1.25em 1.4em 1.25em 2em;
+    /* margin: 1.25em 1.4em 1.25em 2em; */
   }
   
   .row {
@@ -170,7 +230,7 @@
     width: 50px;
     color: white;
     border: 2px solid white;
-    margin: 0 10px;
+    margin: 10px 10px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -184,9 +244,9 @@
     -webkit-transform: scaleX(-1);
     transform: scaleX(-1);
     /* For 3 or 4 People */
-    width: 500px;
+    /* width: 500px;
     height: 600px;
-    margin: 1.5em 0.5em;
+    margin: 1.5em 0.5em; */
     background-color: #16222A;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
     /* For 2 People */

@@ -14,10 +14,19 @@
         const ROOM_ID = "<%= roomId %>"
     </script>
 </head>
+
 <body>
     <section class="timeAndProfile">
+        <img class="bulb"src="bulb.png" alt="bulb">
+        <img class="podha"src="podha.png" alt="podha">
+        <img class="books"src="books.png" alt="books">
+        <hr>
         <div class="dateAndTime"></div>
-        <div class="profile"></div>
+        <div class="profile">
+            <div class="profileOptions">
+        
+            </div>
+        </div>
     </section>
     <section class="videoAndChat">
         <div class="videoArea">
@@ -41,7 +50,7 @@
                     <h4>Want to take notes ?</h4>
                     <div class="hr"></div>
                 </div>
-                <!-- <ul></ul> -->
+                <ul></ul>
                 <div>
                     <input type="text" placeholder="Note here">
                 </div>
@@ -53,7 +62,7 @@
                 </div>
                 <ul class="messages"></ul>
                 <div class="inputArea">
-                    <input type="text" placeholder="Enter message here">
+                    <input type="text" class="chatText" placeholder="Enter message here">
                     <button>SEND</button></input>
                 </div>
             </div>
@@ -136,5 +145,47 @@
         </div>
     </div> -->
 </body>
+<script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
+
+<script>
+    function init() {
+        gapi.load('auth2', function() {
+            gapi.auth2.init({
+                client_id: '401680115319-ljth2d92o4tt9uboa3ffmsnc8fia707f.apps.googleusercontent.com',
+            }).then(async (GoogleAuth)=> {
+                    if(GoogleAuth.isSignedIn["ee"] == false){
+                        await GoogleAuth.signIn(
+                        {
+                        scope: 'profile email'
+                        }
+                    )
+                    }
+                    
+                    let userDetails = GoogleAuth.currentUser.get();
+                    const userName = userDetails.getBasicProfile()["Ve"]
+                    const userEmail = userDetails.getBasicProfile()["It"]
+                    const userImgUrl = userDetails.getBasicProfile()["gJ"]
+
+                    const profileImg = document.createElement("img")
+                    profileImg.src = userImgUrl;
+                    profileImg.style.height = "40px"
+                    profileImg.style.width = "40px"
+                    profileImg.style.borderRadius = "50%"
+                    document.querySelector(".profile").append(profileImg);
+
+                    const profileName = document.querySelector(".profileOptions")
+                    profileName.append(`${userName}`) 
+                    
+                    const signOutBtn = document.createElement("a");
+                    signOutBtn.href = "/logout"
+                    signOutBtn.onclick = "signOut();"
+                    signOutBtn.innerHTML = "Sign Out"
+
+                    profileName.appendChild(signOutBtn)
+                }
+            )
+        });
+    }
+</script>
 <script src="script.js"></script>
 </html>

@@ -1,10 +1,19 @@
 // Deployed the application on Heroku
 const socket = io('/');
 const videoGrid = document.getElementById('video-grid1');
+
+let constraints = {
+    width: {ideal: 850},
+    height: {ideal: 500},
+    aspectRatio: {ideal: 1.75},
+}
+
+let currentPeer;
+
 var peer = new Peer(undefined, {
     path: '/peerjs',
     host: '/',
-    port: '443'
+    port: '3030'
 })
 
 const peers = {}
@@ -29,9 +38,7 @@ setInterval( ()=> {
 }, 1000)
 
 navigator.mediaDevices.getUserMedia({
-    video: {
-        aspectRatio: { ideal: 0.83333},
-    },
+    video: constraints,
     audio: true
 }).then(stream => {
     myVideoStream = stream;
@@ -42,6 +49,7 @@ navigator.mediaDevices.getUserMedia({
         const video = document.createElement('video');
         call.on('stream', userVideoStream => {
             addVideoStream(video, userVideoStream);
+            currentPeer = call.peerConnection;
         })
     })
 
@@ -67,12 +75,42 @@ peer.on('open', id => {
     socket.emit('join-room', ROOM_ID, id); 
 })
 
+
+const screenshare = () => {
+    navigator.mediaDevices.getDisplayMedia({
+        video: {
+            cursor: "always"
+        },
+        audio: {
+            echoCancellation: true,
+            noiseSuppression: true
+        }
+    }).then((stream) => {
+        let videotrack = stream.getVideoTracks()[0];
+        videoTrack.onended = () => {
+            stopScreenShare(); 
+        }
+        let sender = currentPeer.getSenders().find((s) => {
+            return s.track.kind == videoTrack.kind 
+        })
+        sender.replaceTrack(videotrack)
+    })
+}
+
+const stopScreenShare = () => {
+    let videotrack = stream.getVideoTracks()[0]   
+    let sender = currentPeer.getSenders().find((s) => {
+        return s.track.kind == videoTrack.kind 
+    } )
+    sender.replaceTrack(videotrack)
+}
  
 const connectToNewUser = (userId, stream) => {
     const call = peer.call(userId, stream);
     const video = document.createElement('video');
     call.on('stream', userVideoStream => {
         addVideoStream(video, userVideoStream);
+        currentPeer = call.peerConnection
     })
 
     call.on('close', () => {
@@ -88,10 +126,21 @@ const addVideoStream = (video,stream) => {
         video.play();
     })
     videoGrid.append(video);
+    let videoParent = document.getElementById("video-grid1")
+    let childVideos = videoParent.getElementsByTagName('video');
+    if(childVideos.length == 2) {
+        childVideos[0].style.width = "450px"
+        childVideos[0].style.height = "265px"
+        childVideos[0].style.marginRight = "25px"
+
+        childVideos[1].style.width = "750px"
+        childVideos[1].style.width = "450px"
+        // if (people == 1) people++
+    }
 }
 
 
-let text = $('input');
+let text = $('.chatText');
 
 $('html').keydown( (e) => {
     if(e.which == 13 && text.val().length !== 0) {
@@ -102,7 +151,7 @@ $('html').keydown( (e) => {
 
 
 const scrollToBottom = () => {
-    let d = $('.main__chatWindow');
+    let d = $('.messages');
     d.scrollTop(d.prop("scrollHeight"));
 }
 
@@ -120,24 +169,19 @@ const muteUnmute = () => {
 const setUnmuteButton = () => { 
     const ele = `<i class="fas fa-microphone"></i>`;
     document.querySelector(".audio").innerHTML = ele;
+    document.querySelector(".audio").style.backgroundColor = "transparent";
 }
 
 const setMuteButton = () => { 
     const ele = `<i class="fas fa-microphone-slash"></i>`;
     document.querySelector(".audio").innerHTML = ele;
+    document.querySelector(".audio").style.backgroundColor = "#e63023";
 }
 
 const playStopVideo = () => {
     const enabled = myVideoStream.getVideoTracks()[0].enabled;
     
     if (enabled) {
-        // const tracks = stream.getTracks();
-    
-        // tracks.forEach(function(track) {
-        //     track.stop();
-        // });
-    
-        // video.srcObject = null;
         myVideoStream.getVideoTracks()[0].enabled = false;
         stopButton();
     } else {
@@ -150,6 +194,7 @@ const playButton = () => {
     const ele = `<i class="fas fa-video"></i>`;
     document.querySelector(".video").innerHTML = ele;
     document.querySelector("video").style.opacity = "1";
+    document.querySelector(".video").style.backgroundColor = "transparent";
     
 }
 
@@ -159,6 +204,7 @@ const stopButton = () => {
     videoElement.style.opacity = "0.5";
     // document.querySelector("h3").style.opacity = "1";
     document.querySelector(".video").innerHTML = ele;
+    document.querySelector(".video").style.backgroundColor = "#e63023";
 }
 
 if(document.querySelector(".tile").length == 2) {
