@@ -1,7 +1,10 @@
-// Deployed the application on Heroku
+// Initialised the socketio with the address of root
 const socket = io('/');
+
+// Picking up the div element from HTML in which video element will be appended
 const videoGrid = document.getElementById('video-grid1');
 
+//Hardcoded the width and height of the video obtained from the stream
 let constraints = {
     width: {ideal: 850},
     height: {ideal: 500},
@@ -10,17 +13,20 @@ let constraints = {
 
 let currentPeer;
 
+//Initialised the peer object for establishing connection ahead
 var peer = new Peer(undefined, {
     path: '/peerjs',
     host: '/',
     port: '443'
 })
 
+
 const peers = {}
 let myVideoStream;
 const myVideo = document.createElement(`video`);
 myVideo.muted = true;
 
+//Displays the time and date on top left of the screen
 const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -37,6 +43,8 @@ setInterval( ()=> {
     document.querySelector(".dateAndTime").textContent = time + " | " + date;
 }, 1000)
 
+// Function takes two properties video and audio and with respect to that returns
+// a promise which if resolved will give us the stream else it will give us an error
 navigator.mediaDevices.getUserMedia({
     video: constraints,
     audio: true
@@ -44,6 +52,9 @@ navigator.mediaDevices.getUserMedia({
     myVideoStream = stream;
     addVideoStream(myVideo, stream);
 
+
+    // The function allows the guest to accept the call made by the host and returns
+    // the stream to the host
     peer.on('call', call => {
         call.answer(stream);
         const video = document.createElement('video');
@@ -53,29 +64,36 @@ navigator.mediaDevices.getUserMedia({
         })
     })
 
-
+    // This function is triggered when a new user gets connected and further connectToNewUser
+    // function is called
     socket.on('user-connected', (userId) => {
         setTimeout( () => {
             connectToNewUser(userId, stream);
         }, 1000);
     })
 
+    // This socket is trigerred when a new message
+    // is to be added in the chatbox
     socket.on('createMessage', message => {
     $('.messages').append(`<li class="message"> <b> User </b> </br> ${message}</li>`)
     scrollToBottom();
 })
 })
 
+// This socket is trigerred when any user disconnects
+// the call
 socket.on('user-disconnected', (userId) => {
     // console.log(userId);
     if(peers[userId]) peers[userId].close();
 })
 
+// Peer connection opens when new user joins the meeting
 peer.on('open', id => {
     socket.emit('join-room', ROOM_ID, id); 
 })
 
 
+// Function is triggered when the user wants to share the screen
 const screenshare = () => {
     navigator.mediaDevices.getDisplayMedia({
         video: {
@@ -97,6 +115,7 @@ const screenshare = () => {
     })
 }
 
+// Function is triggered when the user stops sharing the screen
 const stopScreenShare = () => {
     let videotrack = stream.getVideoTracks()[0]   
     let sender = currentPeer.getSenders().find((s) => {
@@ -104,7 +123,10 @@ const stopScreenShare = () => {
     } )
     sender.replaceTrack(videotrack)
 }
- 
+
+// Function is triggered when the socket connection is established and 
+// the new user is called through peer connection with our stream and 
+// in return gives the host it's stream
 const connectToNewUser = (userId, stream) => {
     const call = peer.call(userId, stream);
     const video = document.createElement('video');
@@ -120,6 +142,7 @@ const connectToNewUser = (userId, stream) => {
     peers[userId] = call
 }
 
+// Function is triggered to add the video stream on the screen
 const addVideoStream = (video,stream) => {
     video.srcObject = stream;
     video.addEventListener('loadedmetadata', () => {
@@ -139,7 +162,7 @@ const addVideoStream = (video,stream) => {
     }
 }
 
-
+// Captures the text value from the input tab in the chatbox
 let text = $('.chatText');
 
 $('html').keydown( (e) => {
@@ -149,12 +172,12 @@ $('html').keydown( (e) => {
     }
 });
 
-
 const scrollToBottom = () => {
     let d = $('.messages');
     d.scrollTop(d.prop("scrollHeight"));
 }
 
+// Function toggles the mute/unmute functionality
 const muteUnmute = () => {
     const enabled = myVideoStream.getAudioTracks()[0].enabled;
     if (enabled) {
@@ -166,18 +189,22 @@ const muteUnmute = () => {
     }
 }
 
+
+// Function sets the mute button to unmute
 const setUnmuteButton = () => { 
     const ele = `<i class="fas fa-microphone"></i>`;
     document.querySelector(".audio").innerHTML = ele;
     document.querySelector(".audio").style.backgroundColor = "transparent";
 }
 
+// Function sets the unmute button to mute
 const setMuteButton = () => { 
     const ele = `<i class="fas fa-microphone-slash"></i>`;
     document.querySelector(".audio").innerHTML = ele;
     document.querySelector(".audio").style.backgroundColor = "#e63023";
 }
 
+// Function toggles the Video play/stop functionality
 const playStopVideo = () => {
     const enabled = myVideoStream.getVideoTracks()[0].enabled;
     
@@ -190,6 +217,7 @@ const playStopVideo = () => {
     }
 }
 
+// Function sets the video off to on
 const playButton = () => { 
     const ele = `<i class="fas fa-video"></i>`;
     document.querySelector(".video").innerHTML = ele;
@@ -198,6 +226,7 @@ const playButton = () => {
     
 }
 
+// Function sets the video on to off
 const stopButton = () => { 
     const ele = `<i class="fas fa-video-slash"></i>`;
     let videoElement = document.querySelector("video");
@@ -211,6 +240,7 @@ if(document.querySelector(".tile").length == 2) {
     document.querySelector("h3").style.marginLeft = "3em"
 }
 
+// Function toggles the Be Right Back functionality
 let brbToggle = false;
 const brbButton = () => {
     if(brbToggle==false) {
