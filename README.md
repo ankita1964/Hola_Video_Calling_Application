@@ -2,7 +2,7 @@
 
 #### Meet n Greet -  A video conferencing and web chat application using WebRTC, Javascript and Web-sockets with features such as Be Right Back, Scratchy Pad and Messaging!
 
-![alt text](https://github.com/Anima108/My-Codes/blob/master/src/Mars%20Colonization.png "Mars Colonization")  
+![alt text](https://github.com/ankita1964/MS_Teams_Clone/blob/master/Screenshot%202021-07-10%20at%201.43.44%20AM.png "Video Calling")  
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ### Have a Personalised Experience at Mars!  
