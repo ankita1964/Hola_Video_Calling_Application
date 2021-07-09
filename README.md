@@ -1,6 +1,6 @@
-# [Microsoft-Codess Tic-Tac-Toe! ⭕️ ❌ ⭕️]( https://codess-tic-tac-toe.herokuapp.com/  )
+# [Meet n Greet - Video Calling application 🎥]( https://meet-n-greet.herokuapp.com/home  )
 
-#### A 'Mars Colonization :volcano:' theme web application which makes use of the minimax algorithm to create an unbeatable version of the famous Noughts and Crosses game!  
+#### Meet n Greet -  A video conferencing and web chat application using WebRTC, Javascript and Web-sockets with features such as Be Right Back, Scratchy Pad and Messaging!
 
 ![alt text](https://github.com/Anima108/My-Codes/blob/master/src/Mars%20Colonization.png "Mars Colonization")  
 
