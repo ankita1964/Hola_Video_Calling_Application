@@ -48,7 +48,10 @@
 
    ![image](https://user-images.githubusercontent.com/58811776/125174687-d8249000-e1e4-11eb-9b70-94c73a8927a0.png)
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-## Client Side Working:
+## How WebRTC establishes connection between client side and server side?
+- Browser as a client gets connected to the server to ask for stuff called requests.
+- The server obliges by sending responses. 
+- We’ve grown beyond that using WebSockets, but it still is rather the same. If I want to send a message to a friend who is looking at his own browser just now, the message needs to go to the server and from there to my friend. Much like the post office works.
 
    
 
