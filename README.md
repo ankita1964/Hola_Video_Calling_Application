@@ -25,7 +25,29 @@
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Demo Video
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## Demo
+-   `Open` 
+-   `Pick` your personal Room name and `Join To Room`
+-   `Allow` to use the camera and microphone
+-   `Share` the Room URL and `Wait` someone to join for video conference
 
+## Quick Setup
+-   You will need to have [Node.js](https://nodejs.org/en/blog/release/v12.22.1/) installed
+-   Fork this repository and Clone this repo
+
+## Installing Libraries
+- Run `npm i` to install all necessary packages
+
+## Start the server
+
+```js
+npm start
+```
+
+-  Open http://localhost:3030 in browser
+
+---
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ## Features
@@ -48,26 +70,36 @@
 
    ![image](https://user-images.githubusercontent.com/58811776/125174687-d8249000-e1e4-11eb-9b70-94c73a8927a0.png)
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-## How WebRTC establishes connection between client side and server side?
-- Browser as a client gets connected to the server to ask for stuff called requests.
-- The server obliges by sending responses. 
-- We’ve grown beyond that using WebSockets, but it still is rather the same. If I want to send a message to a friend who is looking at his own browser just now, the message needs to go to the server and from there to my friend. Much like the post office works.
-
+## Client Side
+- Browser sends request for authentication to server 
+- An ID token is generated which is used to authorise the client
+- The browser sends a connection request to open a socket connection 
+- The streams of different users are transferred over PeerToPeer Connection over Internet
+- The clients receives the video streams and responds with it's own stream
+ 
+   ![image](https://user-images.githubusercontent.com/58811776/125208432-e390bd80-e2af-11eb-9dac-678b0e6fc70d.png).
    
+## Server Side
+- The servers receives authentication request from the client 
+- It authorises the user using Google Authentication and generates an ID token
+- Next Step, The server receives a socket opening connection request and user joins the room
+- The stream of the user is transferred over PeerToPeer connection via server
+- The chat messages and the room details are stored in MongoDB Database 
+- The Dashboard of the application displays the previous calls and text messages
 
-
-
-## Server Side Working:
-
-
-
-
+     ![image](https://user-images.githubusercontent.com/58811776/125208422-d7a4fb80-e2af-11eb-95dc-a7c4e418a734.png)
+ 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+## Future Improvements 🎯
+- Making it mobile and tablet responsive
+- Implementing Emoji Picker in chat and Raise Hand Feature
+- Implementing Sharing File Feature
+- Extending the application to enable 5+ people
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # References 📚
-Web Dev Simplified
-Clever Programmer
-Font Awesome
+- Web Dev Simplified
+-Clever Programmer
+-Font Awesome
 //
 //
 //
