@@ -2,7 +2,8 @@
 
 #### Hola👋 -  A video conferencing and web chat application using WebRTC, Javascript and Web-sockets with unique features such as Be Right Back, Scratchy Pad and Messaging!
 
-![alt text](https://github.com/ankita1964/MS_Teams_Clone/blob/master/Screenshot%202021-07-10%20at%201.43.44%20AM.png "Video Calling")  
+<!-- ![alt text](https://github.com/ankita1964/MS_Teams_Clone/blob/master/Screenshot%202021-07-10%20at%201.43.44%20AM.png "Video Calling")   -->
+<img width="1440" alt="Screenshot 2021-07-13 at 2 59 51 AM" src="https://user-images.githubusercontent.com/58811776/125358799-03df7b80-e387-11eb-94b0-4544835321b0.png">
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ### The Method - Agile Methodology!  
@@ -98,9 +99,9 @@ npm start
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # References 📚
 - Web Dev Simplified
--Clever Programmer
--Font Awesome
-//
-//
-//
-//
+- Clever Programmer
+- Font Awesome
+- Traversy Media
+- Hitesh Chaudhary
+- Dev Ed
+- CodeWithHarry
