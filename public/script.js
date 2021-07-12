@@ -6,9 +6,9 @@ const videoGrid = document.getElementById('video-grid1');
 
 //Hardcoded the width and height of the video obtained from the stream
 let constraints = {
-    width: {ideal: 850},
-    height: {ideal: 500},
-    aspectRatio: {ideal: 1.75},
+    width: { ideal: 850 },
+    height: { ideal: 500 },
+    aspectRatio: { ideal: 1.75 },
 }
 
 let currentPeer;
@@ -28,20 +28,29 @@ myVideo.muted = true;
 
 //Displays the time and date on top left of the screen
 const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 let today = new Date();
-let date = today.getDate() + " " + monthNames[today.getMonth()] + " " + today.getFullYear(); 
-let time = (today.getHours()<10 ? "0"+today.getHours() : today.getHours()) + " : " + today.getMinutes();
+let date = today.getDate() + " " + monthNames[today.getMonth()] + " " + today.getFullYear();
+let time = (today.getHours() < 10 ? "0" + today.getHours() : today.getHours()) + " : " + today.getMinutes();
 console.log(date + " and " + time);
 document.querySelector(".dateAndTime").textContent = time + " | " + date;
 
-setInterval( ()=> {
+setInterval(() => {
     let today = new Date();
-    let date = today.getDate() + " " + monthNames[today.getMonth()] + " " + today.getFullYear(); 
-    let time = (today.getHours()<10 ? "0"+today.getHours() : today.getHours()) + " : " + today.getMinutes()  + " : " + today.getSeconds();
+    let date = today.getDate() + " " + monthNames[today.getMonth()] + " " + today.getFullYear();
+    let time = (today.getHours() < 10 ? "0" + today.getHours() : today.getHours()) + " : " + today.getMinutes() + " : " + today.getSeconds();
     document.querySelector(".dateAndTime").textContent = time + " | " + date;
 }, 1000)
+
+
+
+const roomDetails = document.querySelector(".roomDetails");
+const roomIdLink = document.createElement("h3")
+roomIdLink.innerText = ROOM_ID
+roomDetails.append(roomIdLink)
+
+
 
 // Function takes two properties video and audio and with respect to that returns
 // a promise which if resolved will give us the stream else it will give us an error
@@ -67,29 +76,32 @@ navigator.mediaDevices.getUserMedia({
     // This function is triggered when a new user gets connected and further connectToNewUser
     // function is called
     socket.on('user-connected', (userId) => {
-        setTimeout( () => {
+        setTimeout(() => {
             connectToNewUser(userId, stream);
         }, 1000);
     })
 
     // This socket is trigerred when a new message
     // is to be added in the chatbox
-    socket.on('createMessage', message => {
-    $('.messages').append(`<li class="message"> <b> User </b> </br> ${message}</li>`)
-    scrollToBottom();
-})
+    socket.on('createMessage', msgContent => {
+        new Date(parseInt(msgContent["timestamp"])).toUTCString();
+        $('.messages').append(`<li class="message"> <b> ${msgContent["name"]} </b> 
+        <span class="time">${new Date(parseInt(msgContent["timestamp"])).toUTCString()}</span> <br> ${msgContent["message"]}</li>`)
+        // console.log(msgContent)
+        scrollToBottom();
+    })
 })
 
 // This socket is trigerred when any user disconnects
 // the call
 socket.on('user-disconnected', (userId) => {
     // console.log(userId);
-    if(peers[userId]) peers[userId].close();
+    if (peers[userId]) peers[userId].close();
 })
 
 // Peer connection opens when new user joins the meeting
 peer.on('open', id => {
-    socket.emit('join-room', ROOM_ID, id); 
+    socket.emit('join-room', ROOM_ID, id, userEmail);
 })
 
 
@@ -104,25 +116,29 @@ const screenshare = () => {
             noiseSuppression: true
         }
     }).then((stream) => {
-        let videotrack = stream.getVideoTracks()[0];
+        let videoTrack = stream.getVideoTracks()[0];
         videoTrack.onended = () => {
             stopScreenShare(); 
         }
         let sender = currentPeer.getSenders().find((s) => {
             return s.track.kind == videoTrack.kind 
         })
-        sender.replaceTrack(videotrack)
+        sender.replaceTrack(videoTrack)
+    }).catch((err) => {
+        console.log("unable to get display media");
     })
 }
 
 // Function is triggered when the user stops sharing the screen
 const stopScreenShare = () => {
-    let videotrack = stream.getVideoTracks()[0]   
+    let videoTrack = myVideoStream.getVideoTracks()[0]   
     let sender = currentPeer.getSenders().find((s) => {
         return s.track.kind == videoTrack.kind 
-    } )
-    sender.replaceTrack(videotrack)
+    })
+    sender.replaceTrack(videoTrack)
 }
+
+
 
 // Function is triggered when the socket connection is established and 
 // the new user is called through peer connection with our stream and 
@@ -136,19 +152,26 @@ const connectToNewUser = (userId, stream) => {
     })
 
     call.on('close', () => {
-        video.remove(); 
+        video.remove();
     })
 
     peers[userId] = call
 }
 
 // Function is triggered to add the video stream on the screen
-const addVideoStream = (video,stream) => {
+const addVideoStream = (video, stream) => {
+    const outerVideo = document.createElement("div")
+    outerVideo.classList.add("outerVideo")
     video.srcObject = stream;
     video.addEventListener('loadedmetadata', () => {
         video.play();
     })
-    videoGrid.append(video);
+    outerVideo.append(video);
+    const brb = document.createElement("h2");
+    brb.innerText = "Be Right Back"
+    brb.classList.add("brbCenter")
+    outerVideo.append(brb);
+    videoGrid.append(outerVideo)
     let videoParent = document.getElementById("video-grid1")
     let childVideos = videoParent.getElementsByTagName('video');
     if(childVideos.length == 2) {
@@ -163,11 +186,16 @@ const addVideoStream = (video,stream) => {
 }
 
 // Captures the text value from the input tab in the chatbox
-let text = $('.chatText');
+let text = $('input');
 
 $('html').keydown( (e) => {
     if(e.which == 13 && text.val().length !== 0) {
-        socket.emit('message', text.val());
+        const msgContent = {
+            name: localStorage.getItem("name"),
+            timestamp: Date.now(),
+            message: text.val()
+        }
+        socket.emit('message', msgContent);
         text.val('');
     }
 });
@@ -191,14 +219,14 @@ const muteUnmute = () => {
 
 
 // Function sets the mute button to unmute
-const setUnmuteButton = () => { 
+const setUnmuteButton = () => {
     const ele = `<i class="fas fa-microphone"></i>`;
     document.querySelector(".audio").innerHTML = ele;
     document.querySelector(".audio").style.backgroundColor = "transparent";
 }
 
 // Function sets the unmute button to mute
-const setMuteButton = () => { 
+const setMuteButton = () => {
     const ele = `<i class="fas fa-microphone-slash"></i>`;
     document.querySelector(".audio").innerHTML = ele;
     document.querySelector(".audio").style.backgroundColor = "#e63023";
@@ -207,7 +235,7 @@ const setMuteButton = () => {
 // Function toggles the Video play/stop functionality
 const playStopVideo = () => {
     const enabled = myVideoStream.getVideoTracks()[0].enabled;
-    
+
     if (enabled) {
         myVideoStream.getVideoTracks()[0].enabled = false;
         stopButton();
@@ -218,16 +246,16 @@ const playStopVideo = () => {
 }
 
 // Function sets the video off to on
-const playButton = () => { 
+const playButton = () => {
     const ele = `<i class="fas fa-video"></i>`;
     document.querySelector(".video").innerHTML = ele;
     document.querySelector("video").style.opacity = "1";
     document.querySelector(".video").style.backgroundColor = "transparent";
-    
+
 }
 
 // Function sets the video on to off
-const stopButton = () => { 
+const stopButton = () => {
     const ele = `<i class="fas fa-video-slash"></i>`;
     let videoElement = document.querySelector("video");
     videoElement.style.opacity = "0.5";
@@ -236,20 +264,20 @@ const stopButton = () => {
     document.querySelector(".video").style.backgroundColor = "#e63023";
 }
 
-if(document.querySelector(".tile").length == 2) {
+if (document.querySelector(".tile").length == 2) {
     document.querySelector("h3").style.marginLeft = "3em"
 }
 
 // Function toggles the Be Right Back functionality
 let brbToggle = false;
 const brbButton = () => {
-    if(brbToggle==false) {
+    if (brbToggle == false) {
         const enabled1 = myVideoStream.getVideoTracks()[0].enabled;
         if (enabled1) {
             myVideoStream.getVideoTracks()[0].enabled = false;
             let videoElement = document.querySelector("video");
             videoElement.style.opacity = "0.5";
-            document.querySelector("h3").style.opacity = "1";
+            document.querySelector(".brbCenter").style.opacity = "1";
             stopButton();
         }
 
@@ -267,7 +295,7 @@ const brbButton = () => {
         if (!enabled1) {
             myVideoStream.getVideoTracks()[0].enabled = true;
             document.querySelector("video").style.opacity = "1";
-            document.querySelector("h3").style.opacity = "0";
+            document.querySelector(".brbCenter").style.opacity = "0";
             playButton();
         }
 

@@ -92,7 +92,7 @@
   
   hr {
     position: absolute;
-    width: 39%;
+    width: 40.35%;
     height: 1px;
     bottom: 45px;
     border: 0.5px solid #1AA0fb;
@@ -170,9 +170,12 @@
   
   .notes input {
     font-size: 1.1rem;
+    flex-grow: 1;
     width: 100%;
     border:none;
     background: transparent;
+    word-wrap: break-word;
+    word-break: break-all;
   }
   
   .notes input:focus {
@@ -192,10 +195,26 @@
     width: 78%;
     border:none;
     background: transparent;
+    word-wrap: break-word;
+    word-break: break-all;
+  }
+
+  .chat > ul {
+    word-wrap: break-word;
+    word-break: break-all;
   }
   
   .chat input:focus {
     outline: none;
+  }
+
+  textarea {
+    /* width: 300px; */
+    border: no;
+    background-color: #F6F983;
+    margin: 10px 0;
+    resize: none;
+    height: 30vh;
   }
   
   .chat button {
@@ -295,4 +314,82 @@
 
   .leave > a:visited{
     color: white;
+  }
+
+  .recording {
+    color: #e63023;
+  }
+
+  .outerBRB {
+    position: relative;
+  }
+
+  .hoverBrb,
+  .hoverMuteUnmute, 
+  .hoverVideoButton, 
+  .leaveMeeting,
+  .hoverScreenshare,
+  .roomDetails {
+    position: absolute;
+    bottom: 70px;
+    color: white;
+    border: 1px solid white;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3px 5px;
+    border-radius: 10px;
+    background-color: rgb(66, 66, 66);
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+    opacity: 0;
+  }
+
+  .audio, 
+  .video, 
+  .leave,
+  .screenshare,
+  .meeetingDetails {
+    position: relative;
+  }
+
+  .hoverMuteUnmute, 
+  .hoverVideoButton, 
+  .leaveMeeting,
+  .hoverScreenshare {
+    bottom: 60px;
+    width: 250%;
+  }
+  
+  .brb:hover .hoverBrb,
+  .audio:hover .hoverMuteUnmute ,
+  .video:hover .hoverVideoButton,
+  .leave:hover .leaveMeeting,
+  .screenshare:hover .hoverScreenshare,
+  .meeetingDetails:hover .roomDetails {
+    opacity: 1;
+  }
+
+  .outerVideo {
+    position: relative;
+  }
+  .brbCenter {
+    position: absolute;
+    color: white;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 45%;
+    font-size: 3rem;
+    opacity: 0;
+    /* text-align: center; */
+  }
+
+  .roomDetails {
+    display: flex;
+    flex-direction: column;
+    height: 400%;
+    width: 600%;
   }

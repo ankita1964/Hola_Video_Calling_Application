@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,9 @@
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "google-auth-library": "^7.2.0",
+    "mongo": "^0.1.0",
+    "mongoose": "^5.13.2",
+    "nanoid": "^3.1.23",
     "peer": "^0.6.1",
     "socket.io": "^4.1.2",
     "uuid": "^8.3.2"

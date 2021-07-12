@@ -24,14 +24,14 @@
         <div class="dateAndTime"></div>
         <div class="profile">
             <div class="profileOptions">
-        
+                <a href="/logout" onclick="signOut();">Sign out</a>
             </div>
         </div>
     </section>
     <section class="videoAndChat">
         <div class="videoArea">
             <!-- <div class="row row1"> -->
-                <h3>Be Right Back</h3>
+                <!-- <h3>Be Right Back</h3> -->
                 <div class="tile" id="video-grid1">
                 </div>
             <!-- </div> -->
@@ -50,9 +50,10 @@
                     <h4>Want to take notes ?</h4>
                     <div class="hr"></div>
                 </div>
-                <ul></ul>
                 <div>
-                    <input type="text" placeholder="Note here">
+                    <!-- <input type="text" placeholder="Note here"> -->
+                    <textarea rows="10" cols="50">
+                        </textarea>
                 </div>
             </div>
             <div class="chat">
@@ -69,30 +70,56 @@
         </div>
     </section>
     <section class="meetingControls">
-            <div class="mainControls">  
-                <div onclick="brbButton()"class="mainControls__options brb">
-                    BRB</i>
+            <div class="mainControls">
+                <div class="outerBRB">
+                    <div onclick="brbButton()"class="mainControls__options brb">
+                        BRB
+                        <div class="hoverBrb">
+                            On Hold
+                        </div>
+                    </div>
                 </div>
                 <div onclick="muteUnmute()" class="mainControls__options audio">
                     <i class="fas fa-microphone"></i>
+                    <div class="hoverMuteUnmute">
+                        Mute/Unmute
+                    </div>
                 </div>
+                <!-- <div onclick="muteUnmute()" class="mainControls__options audio">
+                    <i class="fas fa-microphone"></i>
+                </div> -->
                 <div onclick = "playStopVideo()" class="mainControls__options video">
                     <i class="fas fa-video"></i>
+                    <div class="hoverVideoButton">
+                        Video On/Off
+                    </div>
                 </div>
+                <!-- <div onclick = "playStopVideo()" class="mainControls__options video">
+                    <i class="fas fa-video"></i>
+                </div> -->
                 <div class="mainControls__options leave">
                     <a href="/dashboard"><i class="fas fa-phone"></i></a>
+                    <div class="leaveMeeting">
+                        Leave Meeting
+                    </div>
                 </div>
+                <!-- <div class="mainControls__options leave">
+                    <a href="/dashboard"><i class="fas fa-phone"></i></a>
+                </div> -->
             </div>
             
             <div class="extraControls">
-                <div class="extraControls__options">
-                    <i class="fas fa-microphone"></i>
+                <div class="extraControls__options screenshare" onclick="screenshare()">
+                    <i class="fas fa-tv"></i>
+                    <div class="hoverScreenshare">
+                        Screen Share
+                    </div>
                 </div>
-                <div class="extraControls__options audio">
-                    <i class="fas fa-microphone"></i>
-                </div>
-                <div class="extraControls__options video">
-                    <i class="fas fa-video"></i>
+                <div class="extraControls__options meeetingDetails">
+                    <i class="fas fa-info-circle"></i>
+                    <div class="roomDetails">
+                        <h3>Copy the room link from here: <br> </h3>
+                    </div>
                 </div>
             </div>
     </section>
@@ -148,43 +175,32 @@
 <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
 
 <script>
-    function init() {
-        gapi.load('auth2', function() {
-            gapi.auth2.init({
-                client_id: '401680115319-ljth2d92o4tt9uboa3ffmsnc8fia707f.apps.googleusercontent.com',
-            }).then(async (GoogleAuth)=> {
-                    if(GoogleAuth.isSignedIn["ee"] == false){
-                        await GoogleAuth.signIn(
-                        {
-                        scope: 'profile email'
-                        }
-                    )
-                    }
-                    
-                    let userDetails = GoogleAuth.currentUser.get();
-                    const userName = userDetails.getBasicProfile()["Ve"]
-                    const userEmail = userDetails.getBasicProfile()["It"]
-                    const userImgUrl = userDetails.getBasicProfile()["gJ"]
+   let userDetails = localStorage
+    // console.log(userDetails["name"]);
+    // console.log(userDetails["email"]);
+    // console.log(userDetails["imgUrl"]);
+    const userName = userDetails["name"]
+    const userEmail = userDetails["email"]
+    const userImgUrl = userDetails["imgUrl"]
 
-                    const profileImg = document.createElement("img")
-                    profileImg.src = userImgUrl;
-                    profileImg.style.height = "40px"
-                    profileImg.style.width = "40px"
-                    profileImg.style.borderRadius = "50%"
-                    document.querySelector(".profile").append(profileImg);
+    const profileImg = document.createElement("img")
+    profileImg.src = userImgUrl;
+    profileImg.style.height = "40px"
+    profileImg.style.width = "40px"
+    profileImg.style.borderRadius = "50%"
+    document.querySelector(".profile").append(profileImg);
 
-                    const profileName = document.querySelector(".profileOptions")
-                    profileName.append(`${userName}`) 
-                    
-                    const signOutBtn = document.createElement("a");
-                    signOutBtn.href = "/logout"
-                    signOutBtn.onclick = "signOut();"
-                    signOutBtn.innerHTML = "Sign Out"
+    const profileName = document.createElement("div");
+    profileName.textContent = userName;
+    const profileOptions = document.querySelector(".profileOptions")
+    profileOptions.insertBefore(profileName, profileOptions.firstElementChild)
 
-                    profileName.appendChild(signOutBtn)
-                }
-            )
-        });
+    function signOut() {
+        localStorage.clear();
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function () {
+        console.log("User signed out.");
+      });
     }
 </script>
 <script src="script.js"></script>
