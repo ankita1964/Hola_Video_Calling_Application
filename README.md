@@ -90,14 +90,15 @@ npm start
 - The Dashboard of the application displays the previous calls and text messages
 
      ![image](https://user-images.githubusercontent.com/58811776/125208422-d7a4fb80-e2af-11eb-95dc-a7c4e418a734.png)
- 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 ## Future Improvements 🎯
 - Making it mobile and tablet responsive
 - Implementing Emoji Picker in chat and Raise Hand Feature
 - Implementing Sharing File Feature
 - Extending the application to enable 5+ people
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 # References 📚
 - Web Dev Simplified
 - Clever Programmer
