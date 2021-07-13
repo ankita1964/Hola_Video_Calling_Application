@@ -29,7 +29,7 @@
 ## Demo Video
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ## Demo
--   `Open` 
+-   `Open` https://meet-n-greet.herokuapp.com
 -   `Pick` your personal Room name and `Join To Room`
 -   `Allow` to use the camera and microphone
 -   `Share` the Room URL and `Wait` someone to join for video conference
